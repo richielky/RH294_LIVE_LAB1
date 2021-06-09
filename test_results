@@ -1,1 +1,40 @@
-ansible web -m ping
+Q1 Output Results:
+$ ansible web -m ping
+
+$ ansible web -m yum -a "name=python36 state=installed"
+
+
+Q2 Output Results: $ ansible-playbook install_html.yml
+
+PLAY [Install HTTPD Service] *************************************************************************************************
+
+TASK [Gathering Facts] *******************************************************************************************************
+ok: [ansible2.example.com]
+
+TASK [Require packages installed to be up to date] ***************************************************************************
+ok: [ansible2.example.com]
+
+TASK [The firewalld service is started and enabled] **************************************************************************
+ok: [ansible2.example.com]
+
+TASK [The httpd service is started and enabled] ******************************************************************************
+ok: [ansible2.example.com]
+
+TASK [Insert Web Content] ****************************************************************************************************
+ok: [ansible2.example.com]
+
+TASK [The firewall port for http is open] ************************************************************************************
+ok: [ansible2.example.com]
+
+PLAY [Verify Web Page] *******************************************************************************************************
+
+TASK [Gathering Facts] *******************************************************************************************************
+ok: [localhost]
+
+TASK [Ensure the webserver is reachable] *************************************************************************************
+ok: [localhost]
+
+PLAY RECAP *******************************************************************************************************************
+ansible2.example.com       : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
