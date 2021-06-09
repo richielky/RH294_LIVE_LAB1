@@ -4,7 +4,7 @@ $ ansible web -m yum -a "name=python36 state=installed"
 inventory
 -------------------------------
 [web]
-ansible1.example.com
+ansible2.example.com
 -------------------------------
 
 ansible.cfg
