@@ -1,1 +1,22 @@
 $ ansible web -m yum -a "name=python36 state=installed"
+
+
+inventory
+-------------------------------
+[web]
+ansible1.example.com
+-------------------------------
+
+ansible.cfg
+-------------------------------
+[defaults]
+remote_user = ansible
+inventory = inventory
+ask_pass = false
+
+[privilege_escalation]
+become = true
+become_method = sudo
+become_user = root
+become_ask_pass = false
+-------------------------------
