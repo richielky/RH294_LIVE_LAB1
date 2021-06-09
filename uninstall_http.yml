@@ -1,1 +1,26 @@
+---
+- name: Uninstall HTTPD Package
+  hosts: ansible2.example.com
+  vars:
+    web_package: httpd
+    fw_port: 80/tcp
+    item: /var/www/html/index.html
 
+  tasks:
+    - name: Uninstall {{ web_package }} package
+      yum:
+        name: "{{ web_package }}"
+        autoremove: yes
+        state: absent
+
+    - name: Disable {{ fw_port }} port from firewall
+      firewalld:
+        port: "{{ fw_port }}"
+        permanent: true
+        state: disabled
+
+    - name: Remove {{ item }} Content
+      file:
+        path: "{{ item }}"
+        state: absent
+...
