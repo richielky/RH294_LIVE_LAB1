@@ -1,0 +1,1 @@
+$ ansible web -m yum -a "name=python36 state=installed"
