@@ -1,34 +1,50 @@
 ---
-- name: Install httpd service on web
+- name: Install HTTPD Service
   hosts: ansible2.example.com
+  vars:
+    web_package: httpd
+    fw_package: firewalld
+    web_service: httpd
+    fw_service: firewalld
+    rule: http
+
   tasks:
-    - name: Install httpd package
+    - name: Require packages installed to be up to date
       yum:
-        name: httpd
-        state: present
-    - name: Ensure httpd is running
+        name:
+          - "{{ web_package }}"
+          - "{{ fw_package }}"
+        state: latest
+
+    - name: The {{ fw_service }} service is started and enabled
       service:
-         name: httpd
-         state: started
-    - name: Open port 80 for http access
+        name: "{{ fw_service }}"
+        enabled: true
+        state: started
+
+    - name: The {{ web_service }} service is started and enabled
+      service:
+        name: "{{ web_service }}"
+        enabled: true
+        state: started
+
+    - name: Insert Web Content
+      copy:
+        content: "Welcome to RL Web Site!"
+        dest: /var/www/html/index.html
+
+    - name: The firewall port for {{ rule }} is open
       firewalld:
-        service: http
+        service: "{{ rule }}"
         permanent: true
+        immediate: true
         state: enabled
-    - name: Restart the firewalld service
-      service:
-        name: firewalld
-        state: restarted
-    - name: Create Index.html File
-      file:
-        path: "/var/www/html/index.html"
-        state: touch
-	      mode: 0644
-        owner: ansible
-	content: |
-           "Welcome to RL Web Site!"
-    - name: Restart http
-      service:
-        name: httpd
-        state: restart
-...
+
+- name: Verify Web Page
+  hosts: localhost
+  become: false
+  tasks:
+    - name: Ensure the webserver is reachable
+      uri:
+        url: http://ansible2.example.com
+        status_code: 200
