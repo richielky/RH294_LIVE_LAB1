@@ -1,8 +1,25 @@
 Q1 Output Results:
 $ ansible web -m ping
 
+ansible2.example.com | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+
 $ ansible web -m yum -a "name=python36 state=installed"
 
+ansible2.example.com | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    },
+    "changed": false,
+    "msg": "Nothing to do",
+    "rc": 0,
+    "results": []
+}
 
 Q2 Output Results: $ ansible-playbook install_html.yml
 
